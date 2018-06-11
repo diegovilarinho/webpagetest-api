@@ -3,20 +3,7 @@
 const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/wpt-repository');
 const wptService = require('../services/wpt-service');
-const interval = require('interval-promise');
-const guid = require('guid');
 var config = require('../config');
-
-exports.getResultsById = async(req, res, next) => {
-    try {
-      var data = await repository.getById(req.params.id);
-      res.status(200).send(data);
-    } catch (e) {
-      res.status(500).send({
-          message: 'Falha ao processar sua requisição'
-      });
-    }
-}
 
 exports.runTest = async (req, res, next) => {
     let contract = new ValidationContract();
@@ -33,12 +20,12 @@ exports.runTest = async (req, res, next) => {
       let data = await wptService.runTest(url, options);
 
       res.status(200).json({
-          data
+        data
       });
     } catch (e) {
       console.log(e);
       res.status(500).send({
-          message: 'Falha ao processar sua requisição'
+        message: 'Falha ao processar sua requisição'
       });
     }
 };
@@ -49,8 +36,8 @@ exports.checkTestStatusById = async (req, res, next) => {
 
   // Se os dados forem inválidos
   if (!contract.isValid()) {
-      res.status(400).send(contract.errors()).end();
-      return;
+    res.status(400).send(contract.errors()).end();
+    return;
   }
 
   try {
@@ -60,10 +47,10 @@ exports.checkTestStatusById = async (req, res, next) => {
       data
     });
   } catch (e) {
-      console.log(e);
-      res.status(500).send({
-          message: 'Falha ao processar sua requisição'
-      });
+    console.log(e);
+    res.status(500).send({
+        message: 'Falha ao processar sua requisição'
+    });
   }
 };
 
@@ -76,7 +63,7 @@ exports.getTestResultsById = async (req, res, next) => {
   if (!contract.isValid()) {
     res.status(400).send(contract.errors()).end();
     return;
-  }  
+  }
 
   try {
     let data = await wptService.getTestResults(req.params.testId);
@@ -96,9 +83,9 @@ exports.getTestResultsById = async (req, res, next) => {
       data
     });
   } catch (e) {
-      console.log(e);
-      res.status(500).send({
-          message: 'Falha ao processar sua requisição'
-      });
+    console.log(e);
+    res.status(500).send({
+        message: 'Falha ao processar sua requisição'
+    });
   }
 };

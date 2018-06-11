@@ -1,4 +1,5 @@
 'use strict';
+
 const WebPageTest = require('webpagetest');
 
 exports.runTest = async (url, options = {}) =>  {
@@ -16,11 +17,11 @@ exports.runTest = async (url, options = {}) =>  {
   });
 };
 
-exports.checkTestStatus = async (testId) =>  {
+exports.checkTestStatus = async (testId, options ={}) =>  {
   const wpt = new WebPageTest(global.WPT_SERVER, global.WPT_API);
 
   return new Promise((resolve, reject) => {
-    wpt.getTestStatus(testId, (error, data) => {
+    wpt.getTestStatus(testId, options, (error, data) => {
       if(error) {
         console.log(error);
         reject(error);
@@ -31,11 +32,11 @@ exports.checkTestStatus = async (testId) =>  {
   });
 };
 
-exports.getTestResults = async (testId) =>  {
+exports.getTestResults = async (testId, options = {}) =>  {
   const wpt = new WebPageTest(global.WPT_SERVER, global.WPT_API);
 
   return new Promise((resolve, reject) => {
-    wpt.getTestResults(testId, (error, data) => {
+    wpt.getTestResults(testId, options, (error, data) => {
       if(error) {
         console.log(error);
         reject(error);
